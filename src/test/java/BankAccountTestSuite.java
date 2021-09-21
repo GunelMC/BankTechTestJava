@@ -8,7 +8,8 @@ import static org.hamcrest.Matchers.equalTo;
 public class BankAccountTestSuite {
     @Test
     public void withdrawCreatesANewTransaction() {
-        BankAccount bankAccount = new BankAccount();
+        TransactionCreater bankTransactionCreater = new BankTransactionCreater();
+        BankAccount bankAccount = new BankAccount(bankTransactionCreater);
         bankAccount.withdraw(500, LocalDate.of(2021, 1, 14));
         List<Transaction> transactions = bankAccount.getTransactions();
         Transaction lastTransaction = transactions.get(transactions.size()-1);
