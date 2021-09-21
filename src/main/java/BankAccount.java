@@ -11,7 +11,7 @@ public class BankAccount {
     private final List<Transaction> transactions = new ArrayList<>();
 
     public void withdraw(Integer amount, LocalDate date) {
-        Transaction transaction = transactionCreater.create(amount, date, getCurrentBalance());
+        Transaction transaction = transactionCreater.create(amount, date, getCurrentBalance()-amount);
         transactions.add(transaction);
     }
 
