@@ -21,7 +21,7 @@ public class BankAccountTestSuite {
 
         @Override
         public Integer getBalance() {
-            return -500;
+            return 500;
         }
     }
 
@@ -75,5 +75,13 @@ public class BankAccountTestSuite {
         assertThat(mockTransactionCreater.getAmount(), equalTo(500) );
         assertThat(mockTransactionCreater.getDate(), equalTo(LocalDate.of(2021, 2, 15)) );
         assertThat(mockTransactionCreater.getBalance(), equalTo(500) );
+    }
+
+    @Test
+    public void depositCreatesANewTransactionWithTheRightBalance() {
+        for(int i=0; i<2; i++) {
+            bankAccount.deposit(500, LocalDate.of(2021, 2, 15));
+        }
+        assertThat(mockTransactionCreater.getBalance(), equalTo(1000) );
     }
 }
