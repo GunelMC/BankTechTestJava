@@ -15,6 +15,11 @@ public class BankAccount {
         transactions.add(transaction);
     }
 
+    public void deposit(Integer amount, LocalDate date) {
+        Transaction transaction = transactionCreater.create(amount, date, getCurrentBalance()+amount);
+        transactions.add(transaction);
+    }
+
     public List<Transaction> getTransactions(){
         return transactions;
     }

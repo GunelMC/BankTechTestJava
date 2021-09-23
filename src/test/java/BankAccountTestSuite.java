@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 import java.util.List;
@@ -51,13 +52,28 @@ public class BankAccountTestSuite {
         }
     }
 
+    private MockTransactionCreater mockTransactionCreater;
+    private BankAccount bankAccount;
+
+    @BeforeEach
+    private void setUp(){
+        mockTransactionCreater = new MockTransactionCreater();
+        bankAccount = new BankAccount(mockTransactionCreater);
+    }
+
     @Test
     public void withdrawCreatesANewTransaction() {
-        MockTransactionCreater mockTransactionCreater = new MockTransactionCreater();
-        BankAccount bankAccount = new BankAccount(mockTransactionCreater);
         bankAccount.withdraw(500, LocalDate.of(2021, 1, 14));
         assertThat(mockTransactionCreater.getAmount(), equalTo(500) );
         assertThat(mockTransactionCreater.getDate(), equalTo(LocalDate.of(2021, 1, 14)) );
         assertThat(mockTransactionCreater.getBalance(), equalTo(-500) );
+    }
+
+    @Test
+    public void depositCreatesANewTransaction() {
+        bankAccount.deposit(500, LocalDate.of(2021, 2, 15));
+        assertThat(mockTransactionCreater.getAmount(), equalTo(500) );
+        assertThat(mockTransactionCreater.getDate(), equalTo(LocalDate.of(2021, 2, 15)) );
+        assertThat(mockTransactionCreater.getBalance(), equalTo(500) );
     }
 }
