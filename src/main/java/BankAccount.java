@@ -12,6 +12,7 @@ public class BankAccount {
 
     public void withdraw(Integer amount, LocalDate date) {
         Transaction transaction = transactionCreater.create(amount, date, getPreviousTransactionBalance()-amount);
+        transactions.add(transaction);
     }
 
     public void deposit(Integer amount, LocalDate date) {

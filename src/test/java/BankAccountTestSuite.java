@@ -84,4 +84,13 @@ public class BankAccountTestSuite {
         }
         assertThat(mockTransactionCreater.getBalance(), equalTo(1000) );
     }
+
+    @Test
+    public void withdrawCreatesANewTransactionWithTheRightBalance() {
+        bankAccount.withdraw(500, LocalDate.of(2021, 2, 15));
+        bankAccount.withdraw(500, LocalDate.of(2021, 2, 15));
+        assertThat(mockTransactionCreater.getBalance(), equalTo(0) );
+    }
 }
+
+
