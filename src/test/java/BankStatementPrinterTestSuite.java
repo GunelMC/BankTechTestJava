@@ -1,12 +1,10 @@
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BankStatementPrinterTestSuite {
@@ -23,7 +21,7 @@ public class BankStatementPrinterTestSuite {
     @Test
     public void BankStatementPrinterPrintsBalanceCorrectly() {
         List<Transaction> transactionList = Arrays.asList(bankTransaction1, bankTransaction2, bankTransaction3);
-        String actualBankStatement = BankStatementPrinter.printStatement(transactionList);
+        String actualBankStatement = new BankStatementPrinter().printStatement(transactionList);
 
         assertEquals(expectBankStatement, actualBankStatement);
     }

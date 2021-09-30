@@ -33,7 +33,7 @@ public class BankStatementPrinter {
         return formattedAmount;
     }
 
-    public static String printStatement(List<Transaction> transactions) {
+    public String printStatement(List<Transaction> transactions) {
         StringBuilder sb = new StringBuilder();
         sb.append(HEADER);
 
