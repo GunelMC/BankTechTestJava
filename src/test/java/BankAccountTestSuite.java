@@ -1,10 +1,14 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Arrays;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 
 public class BankAccountTestSuite {
     private class MockTransaction implements Transaction {
@@ -53,12 +57,14 @@ public class BankAccountTestSuite {
     }
 
     private MockTransactionCreater mockTransactionCreater;
+    private BankStatementPrinter mockStatementPrinter;
     private BankAccount bankAccount;
 
     @BeforeEach
     private void setUp(){
         mockTransactionCreater = new MockTransactionCreater();
-        bankAccount = new BankAccount(mockTransactionCreater);
+        mockStatementPrinter = Mockito.mock(BankStatementPrinter.class);
+        bankAccount = new BankAccount(mockTransactionCreater, mockStatementPrinter);
     }
 
     @Test
@@ -90,6 +96,23 @@ public class BankAccountTestSuite {
         bankAccount.withdraw(500, LocalDate.of(2021, 2, 15));
         bankAccount.withdraw(500, LocalDate.of(2021, 2, 15));
         assertThat(mockTransactionCreater.getBalance(), equalTo(0) );
+    }
+
+    @Test
+    public void generateStatementCallsStatementPrinter() {
+        BankTransactionCreater mockTransactionCreater = Mockito.mock(BankTransactionCreater.class);
+        BankStatementPrinter mockStatementPrinter = Mockito.mock(BankStatementPrinter.class);
+        BankAccount bankAccount = new BankAccount(mockTransactionCreater, mockStatementPrinter);
+
+        BankTransaction mockTransaction = Mockito.mock(BankTransaction.class);
+        Mockito.when(mockTransactionCreater.create(anyInt(), any(LocalDate.class), anyInt())).thenReturn(mockTransaction);
+
+        bankAccount.withdraw(500, LocalDate.of(2021, 2, 15));
+        bankAccount.withdraw(500, LocalDate.of(2021, 2, 15));
+        bankAccount.withdraw(500, LocalDate.of(2021, 2, 15));
+        bankAccount.generateStatement();
+
+        Mockito.verify(mockStatementPrinter).printStatement(Arrays.asList(mockTransaction, mockTransaction, mockTransaction));
     }
 }
 

@@ -4,11 +4,13 @@ import java.util.List;
 
 public class BankAccount {
     private final TransactionCreater transactionCreater;
-
-    public BankAccount(TransactionCreater transactionCreater){
-        this.transactionCreater = transactionCreater;
-    }
+    private final BankStatementPrinter bankStatementPrinter;
     private final List<Transaction> transactions = new ArrayList<>();
+
+    public BankAccount(TransactionCreater transactionCreater, BankStatementPrinter bankStatementPrinter){
+        this.transactionCreater = transactionCreater;
+        this.bankStatementPrinter = bankStatementPrinter;
+    }
 
     public void withdraw(Integer amount, LocalDate date) {
         Transaction transaction = transactionCreater.create(amount, date, getPreviousTransactionBalance()-amount);
@@ -18,6 +20,10 @@ public class BankAccount {
     public void deposit(Integer amount, LocalDate date) {
         Transaction transaction = transactionCreater.create(amount, date, getPreviousTransactionBalance()+amount);
         transactions.add(transaction);
+    }
+
+    public String generateStatement() {
+        return bankStatementPrinter.printStatement(transactions);
     }
 
     private Integer getPreviousTransactionBalance(){
