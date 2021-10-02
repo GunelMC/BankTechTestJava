@@ -27,7 +27,7 @@ public class BankAccountTestSuite {
     @Test
     public void withdrawCallsTransactionCreater() {
         bankAccount.withdraw(500, LocalDate.of(2021, 1, 14));
-        Mockito.verify(mockTransactionCreater).create(500,LocalDate.of(2021, 1, 14 ), -500);
+        Mockito.verify(mockTransactionCreater).create(-500,LocalDate.of(2021, 1, 14 ), -500);
     }
 
     @Test
